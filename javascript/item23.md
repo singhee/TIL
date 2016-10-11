@@ -1,20 +1,13 @@
-#아이템22. 가변 인자 함수를 생성하기 위해 arguments를 사용하라
-	1. 가변 인자는 어떠한 명시적인 공식 파라미터도 정의하지 않는다.
-	2. 가변 인자 함수를 구현하기 위해 자바스크립트의 모든 함수에 암묵적으로 전달되는 arguments 객체를 사용해라.
-		* arguments 객체 : 실제 인자와 비슷한 인터페이스 제공  
+# 아이템23. 절대 arguments 객체를 수정하지 마라
+
+1. arguments는 항상 배열처럼 동작하지 않는다.
+2. 함수의 arguments 객체와, 이름이 지정된 파라미터 사이의 관계는 불안정하다.
+3. strict mode 에서 함수 파라미터는 자신의 arguments 객체를 별명으로 삼지 않는다.
+ 
+######  arguments 객체는 절대로 수정하지 않는 편이 안전하다!
+######  arguments 객체를 수정하고 싶다면, arguments 객체의 요소들을 진짜 배열로 복사하면 된다. [ ].slice.call(arguments)
 
 ```javascript
-function average(){ // 가변인자 average 함수
-	for(var i = 0, sum = 0, n= arguments.length; i < n; i++){
-	sum += arguments[i];
-	}
-	return sum / n
-}
-```	
-	3. 고정인자 버전의 가변인자 함수
-
-```javascript	
-function average(){
-	return averageOfArray(arguments); 
-}
+// arguments 복사 구현
+var args = [].slice.call(arguments); //  표준 Array 타입 인스턴스 반환
 ```
