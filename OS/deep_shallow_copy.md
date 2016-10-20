@@ -27,5 +27,4 @@
 
 - 참고 
 [*참조계수 - Reference Counting](https://github.com/singhee/TIL/blob/master/etc/reference_counting.md)
-
 [*Atomic Operations](https://github.com/singhee/TIL/blob/master/OS/atomic_operations.md)
