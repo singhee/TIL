@@ -13,6 +13,8 @@
 #### *참조계수 (reference counting)
 	1. 포인터(레퍼런스)가 몇개인지 카운트 한다.
 	2. 더 이상 참조되지 않을 때, 파괴한다. (참조계수 = 0)
+
+	-> Linux kernel 의 대부분 자료구조(구조체)등은 참조계수를 이용한다.
 	------------------------------------------
 
 	- 참조계수의 증감은 원자적으로 증가/감소 해야 한다.
@@ -25,3 +27,5 @@
 
 - 참고 
 [*참조계수 - Reference Counting](https://github.com/singhee/TIL/blob/master/etc/reference_counting.md)
+
+[*Atomic Operations](https://github.com/singhee/TIL/blob/master/OS/atomic_operations.md)
