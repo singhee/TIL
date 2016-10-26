@@ -11,7 +11,7 @@
 ## Activity 생성
 
 Activity 를 생성하려면 Activity 의 하위 클래스를 생성해야 한다. 
-이 하위 클래스에서는 Activity 의 생성, 중단, 재개, 소멸 시기 등과 같은 생명 주기의 다양한 상태 간 Activity 가 전환될 때 시스템이 호출하는 콜백 메소드를 구현해야한다.
+이 하위 클래스에서는 Activity 의 생성, 중단, 재개, 소멸 시기 등과 같은 생명 주기의 다양한 상태 간 Activity 가 전환될 때 시스템이 호출하는 [생명주기 콜백 메소드](https://github.com/singhee/TIL/blob/master/android/lifecycle_callback.md)를 구현해야한다.
 
  	// 가장 중요한 콜백 메소드 두 가지
  	// 1. onCreate()	2. onPause()
@@ -38,4 +38,49 @@ Activity 를 생성하려면 Activity 의 하위 클래스를 생성해야 한�
   ...
 </manifest >
 ```
+
+## Activity 생명주기(Lifecycle)
+콜백 메소드를 구현하여 Activity 의 생명주기를 관리하는 것은 유연한 Application 개발에 중요한 역할을 한다. Activity 의 생명주기는 다른 Activity 와의 관계, Activity 의 작업과 BackStack 등에 영향을 받는다.
+
+Activity 의 상태는 기본적으로 `활성(Activity)`, `일시정지(Paused)`, `정지(Stopped)` 상태로 나눠진다.
+
+	활성(Activity)
+		: 현재 화면에 Activity 가 표시되는 상태이며, 사용자와 상호작용을 할 수 있는 상태를 말한다. 
+		일반적으로 Activity 가 화면에 표시되고 있을 때 Activity 는 활성 상태이다. (running 상태라고도 한다.)
+
+	일시정지(Paused) 
+		: 화면에서 Activity 가 보이지만, 사용자와 상호작용은 할 수 없는 상태이다. 
+		즉, 배경이 투명한 Activity 나 화면 전체를 가리지 않는 다른 Activity 에 의해 Activity 의 일부가 가려진 경우가 해당된다.
+		Dialog 또한 Activity 의 일부를 가리지만, 이는 Activity 의 일부이기 때문에 일시정지 상태로 바뀌지 않는다.
+
+	정지(Stopped)
+		: 다른 Activity 에 의해 완전히 가려진 상태이다. 정지된 Activity 도 여전히 살아있는 Activity 이다. 
+		  (Activity 개체가 메모리에 보관되어 있고, 모든 상태와 정보를 유지하지만 창 관리자에 붙어있지 않다.)
+
+
+	Activity 가 일시정지 또는 정지된 상태이면, 시스템이 이를 메모리에서 삭제할 수 있다. 
+	그러기 위해서는 종료를 요청(finish()) 하거나 해당 Activity 의 프로세스를 중단 시킨다.
+
+
+ - 하나의 Activity 의 Entire Lifetime 은 `onCreate()` 와 `onDestroy()` 호출 사이를 말한다. Activity 는 onCreate() 에서 전체 상태에 대한 설정을 수행한 다음 나머지 리소스를 모두 `onDestroy()` 에 해제해야 한다. 
+
+ - Activity 의 Visible Lifetime 은 `onStart()` 에서 `onStop()` 호출 사이를 말한다. 이 사이에서는 사용자가 Activity 를 화면에서 보고 상호작용을 할 수 있다.
+
+ - Activity 의 Foreground Lifetime 은 `onResume()` 에서 `onPause()` 호출 사이를 말한다. 이 사이에서는 해당 Activity 가 화면에서 다른 모든 Activity 앞에 표시되며 사용자 입력도 해당 Activity 에 집중된다.
+
+
+
+![Figure_1. Activity Lifecycle](../images/activity_lifecycle.png)
+
+ 
+
+
+
+
+
+
+
+
+
+
 
