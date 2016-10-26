@@ -27,7 +27,7 @@ Activity 를 생성하려면 Activity 의 하위 클래스를 생성해야 한�
 ## 사용자 Interface 구현
 한 Activity 에 대한 사용자 인터페이스는 `View` 클래스에서 파생된 개체가 제공한다. View 를 사용하여 레이아웃을 정의하는 가장 보편적인 방식은 Application 리소스에 저장된 XML 레이아웃 파일을 사용하는 것이다. 그러면, Activity 의 동작을 정의하는 소스코드와는 별개로 사용자 인터페이스 디자인을 유지할 수 있다. setContentView() 로 Activity 의 레이아웃을 설정하고, 해당 레이아웃의 리소스 ID 를 전달할 수 있다.
 
-## [매니페스트 (Menifest)](https://github.com/singhee/TIL/blob/master/android/menifest.md)에서 Activity 선언하기
+## [매니페스트 (Manifest)](https://github.com/singhee/TIL/blob/master/android/menifest.md)에서 Activity 선언하기
 시스템에서 Activity 를 액세스할 수 있게 하려면, manifest 파일에서 선언해야 한다.
 ``` android
 <manifest ... >
