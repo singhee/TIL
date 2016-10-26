@@ -11,7 +11,7 @@
 ## Activity 생성
 
 Activity 를 생성하려면 Activity 의 하위 클래스를 생성해야 한다. 
-이 하위 클래스에서는 Activity 의 생성, 중단, 재개, 소멸 시기 등과 같은 생명 주기의 다양한 상태 간 Activity 가 전환될 때 시스템이 호출하는 [생명주기 콜백 메소드](https://github.com/singhee/TIL/blob/master/android/lifecycle_callback.md)를 구현해야한다.
+이 하위 클래스에서는 Activity 의 생성, 중단, 재개, 소멸 시기 등과 같은 생명 주기의 다양한 상태 간 Activity 가 전환될 때 Activity 의 상태 변경을 알려주기 위해 시스템이 호출하는 [생명주기 콜백 메소드](https://github.com/singhee/TIL/blob/master/android/lifecycle_callback.md)를 구현해야한다.
 
  	// 가장 중요한 콜백 메소드 두 가지
  	// 1. onCreate()	2. onPause()
