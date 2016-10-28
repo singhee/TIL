@@ -118,7 +118,7 @@ console.log(cruiseID.id); // 101
 
 ```
 
-[Understand Javascipt Closures With Ease]("http://javascriptissexy.com/understand-javascript-closures-with-ease/")
+[Understand Javascipt Closures With Ease](http://javascriptissexy.com/understand-javascript-closures-with-ease/)
 
 
 
