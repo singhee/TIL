@@ -8,7 +8,7 @@ Immutable Object (불변객체) <------> Mutable Object (가변객체)
 ```
 장점 1. 스레드에 안전하다
 장점 2. 객체의 상태변경, 보안에 안전하다
-(--Effectice Java 규칙.15)
+[Effectice Java 규칙.15](https://github.com/singhee/TIL/blob/master/java/rule15.md)
 ```
 
 ```
