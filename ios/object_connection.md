@@ -43,7 +43,8 @@ class ViewController: UIViewController{
 위에서 설정한 모든 커넥션들은 `커넥션 인스펙터(connections inspector)`에서 확인할 수 있다.
 
 ------
-뷰 객체를 만들고 설정하였으며, 컨트롤러 객체에 필요한 객체 연결이 완료되었으니 이후에 모델 객체를 만들고 연결해 보도록 할 것이다. [모델 레이어 만들기]()
+뷰 객체를 만들고 설정하였으며, 컨트롤러 객체에 필요한 객체 연결이 완료되었으니 이후에 모델 객체를 만들고 연결해 보도록 할 것이다. 
+[모델 레이어 만들기](https://github.com/singhee/TIL/blob/master/ios/model_layer.md)
 
 
 
