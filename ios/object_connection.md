@@ -41,7 +41,9 @@ class ViewController: UIViewController{
 
 ### 커넥션 인스펙터(connections inspector)
 위에서 설정한 모든 커넥션들은 `커넥션 인스펙터(connections inspector)`에서 확인할 수 있다.
+
 ![Figure_1. Connections_Inspector](../images/connections_inspector.png)
+
 
 -------
 
