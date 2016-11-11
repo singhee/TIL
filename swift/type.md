@@ -1,4 +1,4 @@
-# 타입
+∂# 타입
 `Swift`타입은 세 가지 기본 그룹으로 구분되는데 **구조체, 클래스, 열거형** 이다. 이 세가지 그룹들은 모두 다음을 가질 수 있다.
 	
 	1. 프로퍼티 (properties) : 타입과 관련된 값들
@@ -93,3 +93,5 @@ countingUp.append("three")			// Array 인스턴스 메소드
 ```
 
 
+### 옵셔널 (Optional)
+Swift 타입은 타입명에 `?` 기호를 덧붙여 `옵셔널(optional)`이 될 수 있다. 옵셔널에 대한 설명은 [이곳을 참조](https://github.com/singhee/TIL/blob/master/swift/optional.md)하기 바란다.
