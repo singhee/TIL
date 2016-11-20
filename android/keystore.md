@@ -57,7 +57,7 @@ signingConfigs {
 ```
 
 6. app.build.gradle 파일에 정보 추가
-  - buildTypes 안에 디버그/릴리즈 일때 정보 추가 
+* buildTypes 안에 디버그/릴리즈 일때 정보 추가 
 ```
   buildTypes {
         debug {
