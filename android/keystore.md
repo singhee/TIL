@@ -40,6 +40,38 @@ $ keytool -genkey -v -keystore keystore/myapp.keystore -alias myapp -keyalg RSA 
 다음과 같이 keystore 디렉토리에 키가 생성된 것을 확인할 수가 있다.
 ![Figure_2. Android Keystore](../images/keystore생성_2.png)
 
+5. 생성한 keystore signing하기
+signing은 Android Studio 에서 App의 Project Structure에서 Singing을 해주면 된다. 생성한 key Alias 와 Password 를 알맞게 입력하고 생성한 keystore파일에 대한 경로와 store password 를 올바르게 입력하면 `app.build.gradle` 에 `signingCofig` 가 추가된다.
+단, 주의할 점은 `storeFile` 의 경로를 절대경로에서 상대경로로 반드시 바꾸어주어야 한다.
+![Figure_2. Android Keystore](../images/keystore생성_3.png)
+
+```
+signingConfigs {
+        config {
+            keyAlias 'myapp'
+            keyPassword 'myapp123'
+            storeFile file('../keystore/myapp.keystore')
+            storePassword 'myapp123'
+        }
+    }
+```
+
+6. app.build.gradle 파일에 정보 추가
+  - buildTypes 안에 디버그/릴리즈 일때 정보 추가 
+```
+  buildTypes {
+        debug {
+            signingConfig signingConfigs.keystore
+        }
+
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.keystore
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+```
+
 ### Keytool Option
 
 Keytool Option|Description
