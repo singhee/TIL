@@ -3,50 +3,44 @@
 
 
 ## Debug vs Release
-제작한 앱을 구글 플레이 스토어와 같은 스토어에 올려서 배포하기 위해서는 릴리즈 빌드된 APK 파일을 만들어야 한다. 우리가 일반적으로 개발할 때 사용하는 빌드 설정은 디버그 빌드이다.
-디버그 빌드와 릴리즈 빌드의 차이점은 릴리즈 빌드는 개발자의 고유 인증서로 서명한다는 것과(디버그 인증 서명은 개발툴에서 알아서 해준다.) Zipalign 툴로 최적화 되어 있다는 점이 다르다. 필요에 따라 ProGuard 와 같은 난독화 툴을 사용하여 난독화 하기도 한다.(자바는 구조상 소스코드 노출에 취약하기 때문에 코드 보안을 위해 난돗화를 해야 하는 경우가 많다.)
+제작한 앱을 구글 플레이 스토어와 같은 스토어에 올려서 배포하기 위해서는 릴리즈 모드용 keystore 를 생성해서 이 keystore로 signing해야 한다. 키 signing을 하기 위해서는 JDK의 keytool 유틸을 이용한다.
+우리가 일반적으로 개발할 때 사용하는 빌드 설정은 디버그 빌드이다. 디버그용 keystore는 안드로이드 SDK를 설치할 때 같이 생성된다. `debug.keystore`라는 파일 이름으로 생성되어 있다. 디버그용 keystore은 그냥 사용하면 되는데, 한 가지 유의해야 할 점은 유효기간이 365일 밖에 되지 않는다는 점이다. 만약 365일이 지나서 디버그용 keystore와 관련된 에러가 발생한다면 디버그용 keystore를 지우고 다시 빌드하면 된다.
+
+디버그 빌드와 릴리즈 빌드의 차이점은 릴리즈 빌드는 개발자의 고유 인증서로 서명한다는 것과(디버그 인증 서명은 개발툴에서 알아서 해준다.) 
 
 릴리즈 빌드에 사용하는 개발자의 고유 인증서는 생성하고 사용한 후 절대로 잃어 버리면 안된다. iOS와는 달리 고유 인증서를 잃어 버리면, 다시는 해당 앱의 업데이트 버전을 만들 수 없게 된다.(새로 인증서를 만들게 되면 완전히 다른 앱으로 취급된다.)
 
-## KeyStore 생성 방법
-1. 기본 Command
+## 릴리즈 모드용 안드로이드 KeyStore 생성 방법
+1. keystore 디렉토리 생성
+
+2. 기본 Command
 ```
-$ keytool -genkey -v keystore [keystore 파일명] -alias [alias 이름] -keyalg [암호화방식] -keysize [key 크기] -validity [유효기간]
-
-```
-
-2. 기본 Command 실행 후 출력 화면 및 프로세스
-```
-$ keytool -genkey -v keystore test -alias testest -keyalg RSA -keysize 2048 -validity 18250
-keystore 암호를 입력하십시오:  
-새 암호를 다시 입력하십시오: 
-이름과 성을 입력하십시오.
-  [Unknown]:  sanghee Yoon
-조직 단위 이름을 입력하십시오.
-  [Unknown]:  
-조직 이름을 입력하십시오.
-  [Unknown]:  
-구/군/시 이름을 입력하십시오?
-  [Unknown]:  
-시/도 이름을 입력하십시오.
-  [Unknown]:  
-이 조직의 두 자리 국가 코드를 입력하십시오.
-  [Unknown]:  
-CN=Noh, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown이(가) 맞습니까?
-  [아니오]:  y
-
-다음에 대해 유효 기간이 18,250일인 2,048비트 RSA 키 쌍 및 자체 서명된 인증서(SHA1withRSA) 생성 중
-	: CN=Noh, OU=Unknown, O=Unknown, L=Unknown, ST=Unknown, C=Unknown
-<testest>에 대한 키 암호를 입력하십시오.
-	(keystore 암호와 같은 경우 Enter를 누르십시오):  
-새 암호를 다시 입력하십시오: 
-[test 저장 중]
-
+$ keytool -genkey -v -keystore <keystore name> -alias <alias name> -keyalg <alg name> -keysize <key size> -validity <validity days>
 
 ```
 
+> `-keystore` : keystore가 저장될 위치
+ `-alias` : key 자체 이름
+ `-keyalg` : 키 암호화 알고리즘, RSA나 DSA중 하나를 선택한다
+ `-keysize` : 키의 크기. 이 옵션을 빼면 기본적으로 1024비트의 크기로 저장한다. 구글에서는 2048비트 이상의 키 크기를 권장
+ `-validity` : 유효기간. 단위는 일수이다. 구글에서는 최소 25년 이상(9125일)의 유효기간을 입력할 것을 권장한다. 10000일 정도로 해주면 적당하다.
 
-3. Keytool Option
+예를 들어 keystore 디렉토리에 "myapp.keystore"라는 이름으로 RSA알고리즘을 적용, 키 크기를 2048비트, 유효기간을 10000일, 키 이름을 "myapp"라고 만든다면 아래와 같이 입력한다.
+
+```
+$ keytool -genkey -v -keystore keystore/myapp.keystore -alias myapp -keyalg RSA -keysize 2048 -validity 10000
+```
+어플리케이션마다 다른 키를 적용할 필요는 없다. 하나의 키로 여러개의 어플리케이션에 signing을 할 수 있다.
+
+3. 기본 Command 실행 후 출력 화면 및 프로세스
+![Figure_1. Android Keystore](../images/keystore생성_1.png)
+
+
+4. 키 생성 확인
+다음과 같이 keystore 디렉토리에 키가 생성된 것을 확인할 수가 있다.
+![Figure_2. Android Keystore](../images/keystore생성_2.png)
+
+### Keytool Option
 
 Keytool Option|Description
 --------------|-------------
@@ -62,8 +56,12 @@ Keytool Option|Description
 `-storepass <password>` | A password for the keystore. As a security precaution, do not include this option in your command line. If not supplied, Keytool prompts you to enter the password. In this way, your password is not stored in your shell history.
 
 
-
-
+### 기존 keystore정보 보기
+구글 API를 신청할 때, SHA1의 인증지문(fingerprint)를 요구한다. 
+```
+$ keytool -v -list -keystore <keystore path>
+```
+를 입력하면 MD5와 SHA1의 인증 지문이 나온다. JDK7부터는 위의 keytool 명령어에 `-v`를 안붙이면 MD5인증지문이 안나오고 SHA1의 인증지문만 나온다. JDK7부터는 기본 인증지문이 MD5에서 SHA1으로 변경되었기 때문이다.
 
 
 
