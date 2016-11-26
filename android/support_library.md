@@ -55,3 +55,124 @@ Navigation View에서 살펴볼 핵심 요소는 2가지 이다.
 ### Navigation View - Menu
 `app:menu` 속성은 `Drawer`내부에 사용될 네비게이션 메뉴를 지정하는 데 사용된다. 물론 `inflateMenu()`를 통해 코드를 이용하여 메뉴를 수동으로 구성할 수도 있다.
 
+
+### Coordinator Layout
+`CoordinatorLayout`은 터치나 그래그와 같은 이벤트가 일어날 때 여러개의 하위 view들이 서로 상호 작용을 할 수 있도록 해 주는 레이아웃이다.
+`CoordinatorLayout`은 다음과 같은 두 가지 속성을 제공하여 화면에 있는 view들이 다른 view들을 기준으로 하여 상호작용 할 수 있도록 해 준다.
+	
+	1. layout_anchor : 다른 view를 anchor로 설정할 수 있다.
+	2. layout_anchorGravity : 위에서 설정한 anchor를 기준으로한 gravity를 설정한다.
+
+### App Bar
+`CoordinatorLatout`을 활용하면 스크롤에 따른 view의 모양을 변화시킬 수 있다. 대표적인 예로 `App Bar`(예전의 Action bar)을 들 수 있다. 이미 우리는 레이아웃에서 `Toolbar`를 사용한다. Design Library는 `Toolbar`를 한 단계 더 발전시킨 `AppBarLayout`을 제공한다. 이것을 사용하면 `Toolbar`와 함께 사용되는 여러가지 레이아웃(예를들면 `TabLayout`)들이 다른 뷰에서 스크롤 이벤트가 일어날 때 `Toolbar`와 어우러져 자연스럽게 반응 하도록 할 수 있다.
+
+```
+<android.support.design.widget.CoordinatorLayout  
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+     <! -- Your Scrollable View -->
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+                  ...
+                  app:layout_scrollFlags="scroll|enterAlways" />
+
+        <android.support.design.widget.TabLayout
+                  ...
+                  />
+
+    </android.support.design.widget.AppBarLayout>
+</android.support.design.widget.CoordinatorLayout>  
+```
+위의 코드는 사용자가 `RecyclerView`를 스크롤 할때 `AppBarLayout`이 스크롤 이벤트에 응답할 수 있게 한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
