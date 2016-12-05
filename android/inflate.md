@@ -27,6 +27,13 @@ LinearLayout linearLayout = (LinearLayout) inflater.inflate( R.layout.inflate_ex
 setContentView( linearLayout ); 
 ```
 
+그리고 세과정을 한 줄로 표현하면
+```
+setContentView(R.layout.inflate_example);
+```
+으로 표현할 수 있다. 
+
+
 ## Inflate 사용의 또 다른 방법
 Inflater를 얻어오는 다른 방법이 있다. 
 ```
