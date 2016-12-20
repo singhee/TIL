@@ -30,7 +30,7 @@
 Sender는 Receiver의 수신한계를 넘어서는 Send를 하지 않는다.
 
 ### 4. TCP Segment Structure
-![TCP_Segment_Structure](../images/TCP_segment_structure.jpg)
+![TCP_Segment_Structure](../images/TCP_Segment_structure.jpg)
 - Sequence Number : 세그먼트에서 첫 번째 바이트의 바이트 스트림 번호. 시작 SeqNum은 임의로 선택
 - ACK : 상대방으로부터 기대하는 다음 바이트의 SeqNum. 누적 ACK(cumulative ACK)
 
