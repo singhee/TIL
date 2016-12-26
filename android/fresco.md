@@ -41,9 +41,14 @@ Fresco 이미지 파이프라인은 다양한 방법으로 불러오기를 개�
 
 
 ## Fresco 시작하기 
-
-
-
+### 프로젝트에 Fresco 추가하기
+#### Android Studio 나 Gradle
+'build.gradle'파일에 아래 구문을 'dependencies'에 추가
+```
+dependencies { }
+    //your app's other dependencies
+    compile 'com.facebook.fresco:fresco:0.5.0+'
+```
 
 --------------------------------
 한글 번역 문서 [Github바로가기](https://github.com/recrack/fresco-docs-kr)
