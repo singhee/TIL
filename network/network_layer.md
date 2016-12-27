@@ -31,3 +31,27 @@
 - minimum bandwidth
 - 보장된 패킷 간 간격 : 두 개의 패킷 전송 사이 sender의 시간 간격이 receiver에서의 시간간격과 같음을 보장
 
+## Virtual Circuit 과 Datagram 네트워크
+### Network Layer의 연결형 및 비연결형 서비스
+1. Datagram Network : Network Layer에서 비연결형 서비스(connectionless service)만을 제공
+2. Virtual Circuit Network : Network Layer에서 연결형 서비스(connection service)만을 제공
+3. Transport Layer 서비스와 유사하지만 Network Layer서비스는 다음과 같은 차이가 있다.
+- host 사이의 서비스
+- 연결형이나 비연결형 서비스 하나만을 제공
+- End point뿐만 아니라 Network core의 라우터에서도 구현
+
+### Virtual Circuit
+1. source와 dest 호스트 간의 경로가 전화망과 같이 동작
+- 성능 지향형(performance-wise)
+- 출발지와 목적지 경로를 따라 네트워크 동작
+2. 데이터 전송 전에 각 콜(call)의 연결 설정, 해제
+3. 각 패킷은 (목적지 호스트 주소가 아닌) VC 식별자(번호)를 포함하여 전송
+4. 경로 상의 라우터는 현재 연결에 대한 상태를 유지
+5. 링크, 라우터 자원(대역폭, 버퍼)들이 VC에 할당
+- 전용 자원(dedicated resources) = 예측 가능한 서비스(predictable service)
+
+
+
+
+
+
