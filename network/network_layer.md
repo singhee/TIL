@@ -50,7 +50,15 @@
 5. 링크, 라우터 자원(대역폭, 버퍼)들이 VC에 할당
 - 전용 자원(dedicated resources) = 예측 가능한 서비스(predictable service)
 
-
+### Datagram Network
+1. 네트워크 계층에서 콜 설정이 없음
+2. 라우터는 End point 간 연결에 대한 상태 정보 필요 없음
+- 네트워크 수준에서의 "연결" 개념 없음
+3. 패킷은 목적지 호스트 주소를 사용하여 전달
+- 같은 source와 dest를 갖는 패킷들이 다른 경로를 거칠 수 있음
+4. Forwarding Table 을 구성하여, 목적지 주소의 프리픽스(prefix)를 table entry와 대응
+- 최장 프리픽스 대응 규칙(longest prefix matching rule) 적용. 가장 긴 대응 엔트리를 찾아서 해당 링크 인터페이스로 패킷을 전달
+- 32비트 IP주소는 약 40억개 이상이기 때문에, 만약 라우터 Forwarding Table이 목적지 주소마다 하나의 entry를 갖는다면 아주 큰 테이블이 필요할 것이다
 
 
 
