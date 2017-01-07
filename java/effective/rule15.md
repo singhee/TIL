@@ -1,6 +1,6 @@
 # 규칙15. 변경 가능성을 최소화하라
 
-`변경 불가능(Immutable)`클래스는 그 객체를 수정할 수 없는 클래스이다. 객체가 생성될 때 객체 내부의 정보가 주어지며, 객체가 살아있는 동안 그 정보는 그대로 유지된다. 자바 플랫폼 라이브러리에는 이런 클래스(Immutable Class)가 많다. `String` `기본 자료형 클래스`, `BigInteger`, `BigDecimal`등이 그런 클래스이다. 
+`변경 불가능(Immutable)`클래스는 그 객체를 수정할 수 없는 클래스이다. 객체가 생성될 때 객체 내부의 정보가 주어지며, 객체가 살아있는 동안 그 정보는 그대로 유지된다. 자바 플랫폼 라이브러리에는 이런 클래스(Immutable Class)가 많다. [`String`](https://github.com/singhee/TIL/blob/master/java/string.md) `기본 자료형 클래스`, `BigInteger`, `BigDecimal`등이 그런 클래스이다. 
 
 
 ### Immutable Class를 만드는 이유
