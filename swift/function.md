@@ -38,3 +38,94 @@ func sayHello(myName: String, yourName: String) -> String {
 
 print(sayHello(myName: "sanghee", yourName: "you"))
 ```
+
+### 데이터 타입으로서의 함수
+스위프트의 함수는 **일급 객체**이므로 하나의 데이터 타입으로 사용될 수 있다. 각 함수는 매개변수 타입과 갯수, 반환 타입으로 구성된 하나의 타입으로 정의될 수 있다. 함수를 하나의 데이터 타입으로 나타내는 방법은 아래와 같다.
+```swift
+// (매개변수 타입의 나열) -> 반환 타입
+```
+
+```swift
+func sayHello(name: String, times: Int) -> String {
+	// ...
+}
+```
+위의 sayHello 함수는 함수 타입이 `(String, Int) -> String`이라고 표현된다. 
+
+```swift
+func sayHelloToFriends(me: String, names: String...) -> String {
+	// ...
+}
+```
+위의 sayHelloToFriends 함수는 함수 타입이 `(String, String...) -> String` 이라고 표현된다. 만약 매개변수나 반환 값이 없다면 `Void` 를 사용하여 없음을 나타낸다. 
+
+> 아래의 표현은 모두 매개변수나 반환 값이 없는 함수 타입을 나타낸다.	
+> - `(Void) -> Void`
+> - `() -> Void`
+> - `() -> ()`
+
+함수를 데이터 타입으로 사용할 수 있다는 것은 ++함수를 전달인자로 받을 수도, 반환 값으로 돌려줄 수도 있다++는 의미이다. 이는 스위프트의 함수가 일급 객체이기 때문에 가능한 일이다. 아래는 함수 타입의 사용과 관련된 예제 코드이다.
+
+```swift
+typealias CaculateTowInts = (Int, Int) -> Int
+
+func addTowInts(_ a: Int, _ b: Int) -> Int {
+	return a + b
+}
+
+func multiplyTowInts(_ a: Int, _ b: Int) -> Int{
+	return a * b
+}
+
+var mathFunction: CalculateTwoInts = addTwoInts
+// var mathFunction: (Int, Int) -> Int = addTwoInts 와 동일한 표현
+
+print(mathFunction(2,5))	// 7
+
+mathFunction = multiplyTwoInts
+
+print(mathFunction(2,5))	// 10
+```
+
+스위프트의 함수는 또한 전달인자로 넘겨줄 수도 있다. 
+```swift
+func printMathResult(_ mathFunction: CalculateTwoInts, _ a: Int, _b: Int) {
+	print("Result: \(mathFunction(a,b))")
+}
+
+printMathResult(addTowInts, 3, 5)	// Result: 8
+```
+
+이는 특정 조건에 따라 적절한 함수를 반환해주는 함수를 만들 수도 있다. 
+```swift
+func chooseMathFunction(_ toAdd: Bool) -> CalculateTwoInts {
+	return toAdd? addTwoInts : multiplyTwoInts
+}
+
+printMathResult(chooseMathFunction(true), 3, 5)	// Result: 8
+```
+
+
+## 중첩 함수 
+스위프트는 데이터 타입의 중첩이 자유롭다. 예를 들어 열거형 안에 또 하나의 열거형이 들어갈 수 있고, 클래스 안에 또 다른 클래스가 들어올 수 있다. 
+함수의 중첩은 함수 안에 함수를 넣을 수 있다는 의미인데 함수 안의 함수로 구현된 중첩 함수는 상위 함수의 몸통 블록 내부에서만 사용할 수 있다. 물론, 함수가 하나의 반환 값으로 사용되면 상위 함수 외부에서 사용할 수는 있다.
+```swift
+func functionForMove(_ shouldGoLeft: Bool) -> MoveFunc {
+	func goRight(_ currentPosition: Int) -> Int {
+		return currentPosition + 1
+	}
+
+	func goLeft(_ currentPosition: Int) -> Int {
+		return currentPosition - 1
+	}
+	return shouldGoLeft ? goLeft : goRight
+}
+
+var position: Int = -4	
+let moveToZero: MoveFunc = functionForMove(position > 0)
+
+while position != 0 {
+	print("\(position)...")
+	position = moveToZero(position)
+}
+```
