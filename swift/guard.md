@@ -57,3 +57,13 @@ greet(personInfo) 	// Hello sanghee!
 					// I hope the weather is nice in Korea
 ```
 
+
+
+## guard문 에서의 try?
+`throwable`함수를 호출할 때 `error`의 내용에 대해서 신경을 쓰지 않는 경우라면 `try?`와 `guard`를 함께 사용할 수 있다.
+
+```swift
+guard let item = item, result = try? item.perform() else { 
+    return print("Could not perform") 
+}
+```
