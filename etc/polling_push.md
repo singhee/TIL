@@ -15,3 +15,9 @@
   	-> 스핀락(SpinLock) : Polling, CPU 낭비 up, 속도 up  
 
 	-> Mutex : Push, 반응속도down, 성능 저하 
+
+	-> Reader-Writer Lock : 기본적으로 세 가지 상태가 존재한다.(read-lock, write-lock, unlock) 
+
+		- read-lock 은 누군가 자원을 Read 하고 있을 때 걸리는 RW lock 상태이다. 하나의 스레드라도 자원을 읽는다면 자원의 RW lock 은 read-lock 상태가 된다. 이 상태에서 Read 요청이 들어오면 통과시키고, Write 요청이 들어오면 block 시킨다. 일반적으로 write작업이 기아상태에 빠지지 않기 위해, 대기하는 write요청이 있다면 다른 read 요청을 block 시킨다.
+
+		- write-lock은 누군가 자원을 Write 하고 있을 때 걸리는 RW lock 상태이다. write-lock 상태에 있는 RW lock 은 들어오는 모든 자원 요청에 대해 block 시킨다. Write작업은 완료될때 까지의 자원의 일관성을 보장할 수 없기 때문이다. 
