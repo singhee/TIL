@@ -122,4 +122,25 @@ public enum Optional<Wrapped> {
 }
 ```
 
+옵셔널이 Enum이기 때문에, 아래와 같은 구문도 사용할 수 있다. 
+
+```swift
+let age: Int? = 20
+
+switch age {
+case .none: // `nil`인 경우
+  print("나이 정보가 없습니다.")
+
+case .some(let x) where x < 20:
+  print("청소년")
+
+case .some(let x) where x < 65:
+  print("성인")
+
+default:
+  print("어르신")
+}
+```
+
+
 
