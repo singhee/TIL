@@ -83,4 +83,43 @@ print("\(Numbers.zero.rawValue), \(Numbers.one.rawValue), \(Numbers.two.rawValue
 // 0, 1, 2, 10
 ```
 
+Swift의 enum 에서는 정의되지 않은 원시값을 가지고 생성할 경우 `nil`을 반환하기도 한다. 
+
+## 연관 값
+Enum은 연관 값`Associated Values`을 가질 수 있다. 아래 예시는 어떤 API에 대한 에러를 정의한 것이다. invalidParameter 케이스는 필드 이름과 메시지를 가지도록 정의되었다.
+
+```swift
+enum NetworkError {
+  case invalidParameter(String, String)
+  case timeout
+}
+
+let error: NetworkError = .invalidParameter("email", "이메일 형식이 올바르지 않습니다.")
+```
+위의 값을 꺼내올 수 있는 방법으로는 `if-case`또는 `switch`를 활용하는 방법이 있다.
+```swift
+if case .invalidParameter(let field, let message) = error {
+  print(field) // email
+  print(message) // 이메일 형식이 올바르지 않습니다.
+}
+
+switch error {
+case .invalidParameter(let field, let message):
+  print(field) // email
+  print(message) // 이메일 형식이 올바르지 않습니다.
+
+default:
+  break
+}
+```
+
+### 옵셔널과 Enum
+사실, 옵셔널을 `Enum` 으로 정의되어 있다.
+```swift
+public enum Optional<Wrapped> {
+  case none
+  case some(Wrapped)
+}
+```
+
 
