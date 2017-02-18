@@ -2,7 +2,7 @@
 Reference Counting 은 객체의 수명을 관리하는 기술로 객체의 메모리를 참조하는 계수를 기반으로 수명을 관리한다.
 
 ## Reference Counting 의 등장 이유
-Reference Counting 을 이해하기 위해서는 먼저, ++복사정책++에 대해 알아야 한다. 복사 정책은 객체가 가진 값 형식(Value Type)과 참조형식(Reference Type)의 복제 방식에 따라 두 가지로 나누어진다.
+Reference Counting 을 이해하기 위해서는 먼저, **복사정책**에 대해 알아야 한다. 복사 정책은 객체가 가진 값 형식(Value Type)과 참조형식(Reference Type)의 복제 방식에 따라 두 가지로 나누어진다.
     
     1. 깊은 복사 (deep copy)
     2. 참조 복사 (shallow copy)
