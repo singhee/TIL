@@ -2,22 +2,22 @@
 ## 화면의 기본, 뷰를 알아보자
 1. View의 자식 뷰는 UIView의 subViews라는 변수로  찾아 볼 수 있다.  UIView의 배열로 저장이 되어있다. 
 2. 뷰 계층은
-1)  Xcode 내부에서 그래픽을 활용해서 만들어진다. 
+1)  Xcode 내부에서 그래픽을 활용해서 만들어진다.
 2)  또한, 코드로 만들 수 있다.    
- —  `addSubView ()`
- —  `removeFromSuperView()`
+- `addSubView ()`
+- `removeFromSuperView()`
 3. ViewController 에는 최상위 계층에 있는 View의 포인터가 있다.  (여기서 말하는 최상의 계층 View는 bounds가 바뀌는 뷰를 말한다.)
--> `var view: UIView`
-이 포인터를 이용하여 `addSubView()`나 `removeFromSuperView()`를 사용할 수 있다. 
+: `var view: UIView` 이 포인터를 이용하여 `addSubView()`나 `removeFromSuperView()`를 사용할 수 있다. 
 
 ### UIView의 생성
-UIView를 위한 생성방식은 Initializer를 이용하는 방법과 ,  `awakeFromNib()`메소드를 사용하는 것이다.  Initializer를 이용하는 방법은 Code와 Storyboard 모두 사용가능하며, `awakeFromNib()`메소드를 호출하는 방법은 Storyboard에서만 유효한 방법이다. 
+UIView를 위한 생성방식은 Initializer를 이용하는 방법과 ,`awakeFromNib()`메소드를 사용하는 것이다.  Initializer를 이용하는 방법은 Code와 Storyboard 모두 사용가능하며, `awakeFromNib()`메소드를 호출하는 방법은 Storyboard에서만 유효한 방법이다. 
 그렇다면 Initializer를 이용해 UIView를 생성하는 방법에 대해서 알아보도록 하자. UIView의 초기화는 조심해야한다. 중요한 생성자가 두 개 존재하기 때문이다.  
 
-1) init (frame: CGRect)	//  뷰를 코드에서 만들 때 호출한다.
-2) init (coder: NSCoder)	//  필수 생성자. Storyboard에서 UIView를 만들 때 사용된다.
+1) init (frame: CGRect)	: 뷰를 코드에서 만들 때 호출한다.
+2) init (coder: NSCoder) : 필수 생성자. Storyboard에서 UIView를 만들 때 사용된다.
 
 만약 UIView의 초기화 과정에서 생성자가 필요하다면, 하나의 함수`setup()` 안에 모든 생성자를 넣어두는 것이 좋다. 그리고 이 2개의 생성자들을 override 해서 그 내부에서 `setup()`함수를 호출한다. 
+
 ```swift
 func setup() { ... }
 
@@ -39,27 +39,27 @@ UIView위에 뭔가를 그리는 방법에 대해 공부하기 전에,  자료 �
 
 ### Coordinate System Data Structure 
 먼저, 다음과 같이 드로잉 할 때 필요한 핵심 타입 4가지가 있다. 
-1. CGFloat 
-: Drawing 을 할 때는 Double로 계산한 값을 CGFloat로 바꿔야 한다.  
+
+1. CGFloat : Drawing 을 할 때는 Double로 계산한 값을 CGFloat로 바꿔야 한다.  
 ```swift
 let cfg = CGFloat(aDouble) 
 ```
-2. CGPoint
-:  x좌표, y좌표 변수를 가지고 있어 하나의 점을 대변한다.
+
+2. CGRect :  x좌표, y좌표 변수를 가지고 있어 하나의 점을 대변한다.
 ```swift
 var point = CGPoing(x: 37.0, y: 55.2)
 point.y -= 30
 point.x += 20.0
 ```
-3. CGSize
-:  너비와 높이에 대한 두개의 변수를 가지고 있다.  
+
+3. CGSize :  너비와 높이에 대한 두개의 변수를 가지고 있다.  
 ```swift
 var size = CGSize(width: 100.0, height: 50.0)
 size.width +=  42.5
 size.height += 75
 ```
-4. CGRect
-:  CGPoint와 CGSize를 가지고 있다. 
+
+4. CGRect :  CGPoint와 CGSize를 가지고 있다. 
 ```swift
 struct CGRect {
 	var origin: CGPoint
@@ -67,8 +67,8 @@ struct CGRect {
 }
 let rect = CGRect(origin: aCGPoint, size: aCGSize)
 ```
- 
-이제는 뷰 안에서 드로잉을 할 좌표계에 대해서 알아보자. 
+
+자, 이제는 뷰 안에서 드로잉을 할 좌표계에 대해서 알아보자. 
 * Origin(원점)은 좌측 상단에 있다. 
 * 드로잉에 사용되는 모든 단위들은 **points(포인트)**라고 불린다. 보통 iOS는 point당 2개의 pixel을 포함하고 있다. 
 * pixel에 신경을 써야되는 상황이 있다면, UIView에게 contentScaleFactor가 무엇인지 물어야 한다.  이것은 포인트당 얼마나 많은 픽셀이 있는지를 말한다. 
@@ -92,11 +92,11 @@ view.addSubview(label)
 
 ### Custom Views
 * 왜 UIView의 자식뷰인 커스텀 뷰를 만드는 것일까?
-— draw를 하기 위해서는 UIView를 상속받은 다음 `drawRect()`메소드 하나만 Override 해주면 그릴 수 있다.  **단, 절대로 `drawRect()`메소드를 호출해서는 안된다.**
+draw를 하기 위해서는 UIView를 상속받은 다음 `drawRect()`메소드 하나만 Override 해주면 그릴 수 있다.  **단, 절대로 `drawRect()`메소드를 호출해서는 안된다.**
 * 뷰를 다시 그리는 방법
-—  `setNeedsDisplay()`메소드는 “이 뷰는 다시 그려질 필요가 있다”는 것을 시스템에게 알려준다.  그렇다면 뷰는 적절한 시점에 `drawRect()` 를 호출할 것이다.
-— `setNeedsDisplayInRect()`메소드는 인자로 받는 직사각형 부분만 그려주는 메소드이다. -> `setNeedsDisplay()`의 최적화된 버전
-* `drawRect()`는 어떻게 실행할까 
+`setNeedsDisplay()`메소드는 “이 뷰는 다시 그려질 필요가 있다”는 것을 시스템에게 알려준다.  그렇다면 뷰는 적절한 시점에 `drawRect()` 를 호출할 것이다.
+`setNeedsDisplayInRect()`메소드는 인자로 받는 직사각형 부분만 그려주는 메소드이다. --> `setNeedsDisplay()`의 최적화된 버전
+* `drawRect()`는 어떻게 실행할까
 1)  C언어 같은 방법 : Core Graphics (전역 함수로 처리하는 방법)
 2)  객체지향 방법: UIBezierPath 클래스를 사용하는 방법 (UIBezierPath도 결국 밑단에서는 Core Graphics를 사용하는 것)
 
@@ -106,6 +106,7 @@ view.addSubview(label)
 > 2. 경로(path)를 만든다. - 호나, 직선, 직사각형, 원 등으로 되어 있다.
 > 3.  경로를 그리는 데 필요한 속성들을 설정 해준다.  (ex. colors, fonts, textures, linecaps)
 > 4.  Stroke or fill - 경로를 그어주거나, 경로로 닫힌 영역에 정해진 색이나 텍스쳐로 채운다. 
+
 
 > ** UIBezierPath?**
 > UIBezierPath 클래스도 모든 걸 같은 방식으로 처리한다. 다만, Core Graphics와 다른 점은 자동으로 Context를 처리할 수 있다는 점이다. UIBezierPath는 Core Graphics 내용 모두를 하나의 클래스로 캡슐화한 개념이라고 생각하면 된다. 색, 폰트, 이미지를 제외하고는 필요한 모든 것을 UIBezierPath를 통해서 그릴 수 있다. ( 색은 UIColor 가 한다.)
