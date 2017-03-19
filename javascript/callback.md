@@ -33,9 +33,28 @@ setInterval(callback, 1000)
 ## Basic Principles when Implementing Callback Functions
 콜백함수를 적용하기 위해서는 몇 가지 원칙이 있다.
 ### 1. Use Named OR Anonymous Functions as Callbacks : 이름이나 익명의 함수를 사용하라.
+위의 예제에서 보았듯이 우리는 익명의 함수를 파라메터로 사용을 합니다. 이러한 방식이 가장 일반적인 패턴이다. 또 다른 보편적인 방법으로는 함수를 정의해 해당 함수의 이름을 파라미터로 넘기는 방식이다.
+
 ### 2. Pass Parameters to Callback Functions : 콜백함수로 파라미터를 전달하라.
+콜백함수가 실행이 될 때는 그냥 일반 함수와 동일하게 동작을 한다. 그래서 우리는 콜백함수에 파라메터를 전달할 수가 있다. 우리는 파라메터로 콜백함수를 감싸고있는 함수 내부의 어떠한 프로퍼티라도 파라미터로 전달할 수가 있다. 아래의 예제를 실행하면 options 파라미터를 콜백함수에 전달할수 있다. 전역변수와 지역변수를 파라미터로 전달할 수 있다.
+```javascript
+//전역변수 
+var generalLastName = "Clinton"; 
+
+function getInput (options, callback) { 
+	allUserData.push (options); 
+	// 전역변수를 콜백함수의 인자로 전달한다. 
+	callback (generalLastName, options); 
+}
+```
+
 ### 3. Make Sure Callback is a Function Before Executing It : 콜백함수가 실행 되기 전에 함수임을 명확하게 하라.
+콜백함수가 인자로 전달되어 함수의 내부에서 실행이 될 때 전달받은 인자가 함수인지를 명확하게 정의 하고 실행하는 것이 좋은 습관이다.
+
 ### 4. Problem When Using Methods With The this Object as Callbacks : this를 사용한 메서드를 콜백으로 사용시 문제가 된다. 
+콜백함수가 this객체를 사용하는 메서드인 경우에는 우리는 반드시 this객체의 컨택스트를 보호할 수 있도록 콜백함수를 수정해야 한다.
+예를들면 전역함수에 인자로 콜백함수가 전달된 경우에는 this객체가 window객체를 가리키게 만들거나 또는 콜백함수를 감싸고 있는 메서드를 가리키게 해야한다.
+
 ### 5. Use the Call or Apply Function To Preserve this : Call 과 Apply를 통한 this 보호
 
 ## "Callback Hell" Problem And Solution
