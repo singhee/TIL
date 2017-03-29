@@ -37,6 +37,7 @@ Content를 조정하는 것은 주로 임시로 몇 개의 Viwe를 리사이징�
 3. Target이 되는 Text View의 위치를 그 위에 위치하게 된다. 
 
 아래 그림은 몇개의 TextField를 하나의 UIScrillView에 넣은 뒤 input작업을 하는 과정을 보여주고 있다. 키보드가 나타날 때, 노티피케이션 핸들러 메소드가 컨텐트와 스크롤 위치를 조정한 뒤, `scrollRectToVisible(_ rect: animate:)`메소드를 사용하여 textView를 적절한 위치에 이동 시키고 있다.
+
 ![Figure_1. keyboard adjust](../images/keyboard_adjust.png)
 
 -------------------------------------------------------------------------------------
