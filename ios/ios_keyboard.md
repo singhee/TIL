@@ -40,6 +40,51 @@ Content를 조정하는 것은 주로 임시로 몇 개의 Viwe를 리사이징�
 
 ![Figure_1. keyboard adjust](../images/keyboard_adjust.png)
 
+아래 objective-C 코드는 키보드 노티피케이션을 등록하고 그 노티피케이션들에 대한 핸들러 메소드를 보여주고 있다. scrollView를 제어하는 ViewController에서 이 코드를 작성해야 한다. `keyboardWasShown` 메소드는 노티피케이션의 info 딕셔너리에서 키보드의 사이즈를 가져온 뒤 스크롤뷰에서 target view의 위치를 조정해준다. 이 메소드에서 scrollIndicatorInsets프로퍼티도 설정하여 scrolling indicator가 키보드에 의해 가려지지 않게 해준다. 
+
+현재 활성화된 텍스트필드가 키보드에 의해 가려져있다면 `keyboardWasShown` 메소드가 컨텐트의 위치를 적절하게 조절해줄 것이다.
+
+``` objectiveC
+// Call this method somewhere in your view controller setup code.
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(keyboardWasShown:)
+            name:UIKeyboardDidShowNotification object:nil];
+  
+   [[NSNotificationCenter defaultCenter] addObserver:self
+             selector:@selector(keyboardWillBeHidden:)
+             name:UIKeyboardWillHideNotification object:nil];
+  
+}
+  
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+  
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    scrollView.contentInset = contentInsets;
+    scrollView.scrollIndicatorInsets = contentInsets;
+  
+    // If active text field is hidden by keyboard, scroll it so it's visible
+    // Your app might not need or want this behavior.
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= kbSize.height;
+    if (!CGRectContainsPoint(aRect, activeField.frame.origin) ) {
+        [self.scrollView scrollRectToVisible:activeField.frame animated:YES];
+    }
+}
+  
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    scrollView.contentInset = contentInsets;
+    scrollView.scrollIndicatorInsets = contentInsets;
+}
+```
 -------------------------------------------------------------------------------------
 [출처](https://developer.apple.com/library/content/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html#//apple_ref/doc/uid/TP40009542-CH5-SW1)
 
