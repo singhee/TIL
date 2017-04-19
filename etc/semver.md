@@ -14,7 +14,6 @@
 
 [Semver 공식 문서](http://semver.org/)에서의 내용 중 요점만을 살펴보면 다음과 같다. 
 
-```
 1. Software using Semantic Versioning MUST declare a public API. This API could be declared in the code itself or exist strictly in documentation. However it is done, it should be precise and comprehensive.
 
 SemVer를 사용하는 소프트웨어는 반드시 공개 API를 선언해야 한다. 이 API는 코드 자체로 선언하거나 문서로 명시해야 한다.
@@ -30,7 +29,6 @@ API가 이전 버전과 호환되지 않게 변경된 경우에는 반드시 Maj
 4. A pre-release version MAY be denoted by appending a hyphen and a series of dot separated identifiers immediately following the patch version. Identifiers MUST comprise only ASCII alphanumerics and hyphen [0-9A-Za-z-]. Identifiers MUST NOT be empty. Numeric identifiers MUST NOT include leading zeroes. Pre-release versions have a lower precedence than the associated normal version. A pre-release version indicates that the version is unstable and might not satisfy the intended compatibility requirements as denoted by its associated normal version. Examples: 1.0.0-alpha, 1.0.0-alpha.1, 1.0.0-0.3.7, 1.0.0-x.7.z.92.
 
 Patch 버전 뒤에 하이픈(-)을 붙이고 마침표(.)로 구별된 식별자를 붙여 배포 전의 버전을 명명할 수 있다. 1.0.0-alpha, 1.0.0-alpha.1 과 같은 형식으로. 이 때, 정식배포 버전과 비교하면 정식배포 버전의 우선순위가 더 높다. 1.0.0-alpha < 1.0.0
-```
 
 ## Semver를 써야 하는 이유 
 `Sementic Versioning` 방식은 새롭거나 혁신적인 아이디어가 아니다. 이미 비슷하게 적용하고 있을 수도 있다. 하지만, "비슷한" 방식으로는 충분하지 않다. 어떠한 형태로 정식 명세를 정해서 따르지 않는다면, version number는 의존성 관리에서 무의미 하기 때문이다. 그래서 SemVer에서 지향는 것은, '비슷한' 방식이 아닌 '동일한' 체계의 versioning 이다. 
