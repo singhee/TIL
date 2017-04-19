@@ -18,10 +18,10 @@
 
 ## Yarn은 얼마나 빨라졌나
 * 사용하고 있는 repository에서 모듈들의 install 시간을 비교해 보았더니 다음과 같이 나타났다. 
+  * **npm install** - 1회 3분 48초 -> 2회(caching) 1분 7초
+  * **yarn install** - 1회 3분 38초 -> 2회(caching) 13초
 
-**npm install** - 1회 3분 48초 -> 2회(caching) 1분 7초
-**yarn install** - 1회 3분 38초 -> 2회(caching) 13초
-[Compare Yarn Performance](https://yarnpkg.com/en/compare)
+  [Compare Yarn Performance](https://yarnpkg.com/en/compare)
 
 ## Yarn 프로세스 
 1. Resolution 
