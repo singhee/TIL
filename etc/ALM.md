@@ -7,7 +7,8 @@ ALM 이전의 소프트웨어 개발 프로세스는 요구 사항 관리에 대
 
 
 아래의 그림에서 볼 수 있듯이 ALM은 크게 릴리즈, 이슈, 빌드, 요구사항 관리 영역을 커버하고 있다는 것을 볼 수 있다. 
-![image_1.ALM](../images/alm.jpg)
+![image_1. ALM](../images/alm.jpg)
+
 [그림 출처 - REDMINE & Jenkins 커뮤니티](http://www.redmine.or.kr/projects/pjt_demo)
 
 
@@ -28,17 +29,17 @@ VCS는 다음과 같이 세 가지 유형으로 나뉘어 진다.
 * Distributed VCS - DVCS (분산 버전 관리 시스템)
 ### Local VCS
 간단한 데이터베이스를 사용하여 파일의 변경 정보를 관리한다.
-![image_2.Local_Version_Control](../images/local_vcs.png)
+![image_2. Local_Version_Control](../images/local_vcs.png)
 
 ### Centralized VCS - CVCS
 프로젝트를 진행할 때 다른 개발자와 함께 작업해야 하는 경우 사용되는 시스템이다. 파일을 관리하는 서버가 별도로 있고, 클라이언트가 중앙 서버에서 파일을 받아(Checkout) 사용할 수 있다. `CVS`와 `SVN`, `Perforce`가 대표적인 CVCS 이다.
 
 CVCS 는 관리자가 프로젝트에 참여한 사람들의 작업 리스트 정보를 관리하기가 쉽다. 하지만 중앙 서버에 문제가 발생하여 다운될 경우, 그동안에는 협업 및 백업이 불가능하다. 또한 하드디스크에 문제가 생긴다면 프로젝트의 모든 히스토리를 잃을 수도 있다는 단점이 있다. 
-![image_3.Centralized_VCS](../images/centralized_vcs.png)
+![image_3. Centralized_VCS](../images/centralized_vcs.png)
 
  
 ### Distributed VCS - DVCS
 클라이언트가 저장소 자체를 복제(clone)한다. 서버에 문제가 생길 경우 이 복제물로 작업이 가능하며 서버를 복원할 수도 있다. 또한 remote 저장소가 존재하며 remote 저장소가 많을 수도 있다. 즉, 동시에 다양한 그룹과 다양한 방법으로 협업이 가능하다. 대표적으로 `Git`, `Mercurial`가 DVCS 이다.
 
-![image_4.Distributed_VCS](../images/distributed_vcs.png)
+![image_4. Distributed_VCS](../images/distributed_vcs.png)
 
