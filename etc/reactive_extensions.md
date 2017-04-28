@@ -8,7 +8,10 @@ Data sequences는 파일, 웹 서비스, 웹 서비스 요청, 시스템 알림 
 
 
 ## Rx를 지탱하는 세 가지 키워드 
-MS 에서는 Rx를 
+MS 에서 표현하는 Rx의 기본정의는 다음과 같다.
+```
+ Rx = Observables + LINQ + Schedulers
+```
 
 ### 1. Reactive Programming(RP)
 ![Figure1. Stream](../images/stream.png)
@@ -88,9 +91,12 @@ drag$.subscribe(pos => {
 ```
 
 ### 3. Scheduler
-`Scheduler`는 비동기(멀티스레드) 환경에서 오퍼레이터 실행 시점을 제어해준다. 
+`Scheduler`는 비동기(멀티스레드) 환경에서 **오퍼레이터의 실행 시점을 제어해준다**. `Observables`는 이러한 Scheduler와 접목하기 아주 쉬운 구조로 되어있기 때문에 Rx는 비동기적 코드를 구성하기 위한 아주 뛰어난 도구가 될 수 있는 것이다. 그리고 `Scheduler`는 Thread를 관리해주는 아주 중요한 도구가 된다. 
 
+`Observable`에서는 `Scheduler`를 적용하기 위해 `observeOn()`함수와 subscribeOn()`함수를 제공한다.
+* `subscribeOn()` : `subscribe()` 안에서 정의한 callback이 실행되는 Working Thread가 어디인지 지정하는 함수이다. 실제로 map() 함수가 실행되는 Thread이며, 별도로 지정하지 않을 경우, 객체가 생성되는 Thread가 기본으로 지정된다.
 
+* `observeOn()` : `subscribe()`안에서 정의한 과정과 결과를 통보받는 Notification Thread를 지정하는 함수이다. UI를 가진 프로그램 구조에서 상당히 중요한 역할을 하기 때문에 Event를 처리하는 Thread로 지정해두면 편리하다. 
 
 
 
