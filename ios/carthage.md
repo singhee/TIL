@@ -17,3 +17,54 @@
 ## Carthage의 단점
 `Carthage`의 단점도 물론 존재한다. 그것은 implementation 파일을 볼 수 없다는 점이다. 
 
+## 설치하기
+`Carthage`는 Homebrew 패키지 매니저로 설치한다.
+```zsh
+$ brew update
+$ brew install carthage
+``` 
+
+## Cartfile 편집
+```zsh
+$ vi Cartfile
+```
+
+## 빌드하기
+```zsh
+$ carthage update
+```
+업데이트를 마치게 되면 다음과 같이 결과 파일이 생성된다. Carthage 폴더는 Cartfile에 등록된 패키지들의 소스가 들어 있는 폴더인데 프로젝트 구성에 필요가 없다. 그렇기 때문에, .gitignore로 등록하도록 한다. 
+
+```
+ * 파일: Cartfile.resolved
+ * 폴더: Carthage (.gitignore에 등록한다)
+```
+
+## Xcode 설정
+1) Run Script Phase 추가
+- 프로젝트 파일을 열고 TARGETS에서 프로젝트명을 선택한다. 
+- [Build Phases]탭을 선택하고 왼쪽 상단에 있는 [+]을 클릭하고  [New Run Script Phase]를 선택한다.
+- 명령입력창에서 /usr/local/bin/carthage copy-frameworks 를 입력한다.
+- Input Files에 프레임워크 경로를 입력한다.
+```
+$(SRCROOT)/../Carthage/Build/iOS/Alamofire.framework // Alamofire 프레임워크 경로 입력 예시
+```
+
+2) 프레임웍 파일 추가하하기
+- “General”에서 “Linked frameworks and Libraries”에서 설치된 프레임웍을 [+]버튼을 눌러 추가한다.
+![Figure_1](../images/LinkedFrameworks)
+
+- 소스편집기에서 추가한 프레임웍을 import해서 사용하면 된다.
+
+
+
+
+
+
+
+
+
+
+
+
+
