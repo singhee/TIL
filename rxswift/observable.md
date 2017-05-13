@@ -1,5 +1,5 @@
-# Hot and Cold Observables
-
+# Observable
+## Hot and Cold Observables
 [ReactiveX 공식 사이트 - Observable](http://reactivex.io/documentation/observable.html)
 > When does an Observable begin emitting its sequence of items? It depends on the Observable. A “hot” Observable may begin emitting items as soon as it is created, and so any observer who later subscribes to that Observable may start observing the sequence somewhere in the middle. A “cold” Observable, on the other hand, waits until an observer subscribes to it before it begins to emit items, and so such an observer is guaranteed to see the whole sequence from the beginning.
 
@@ -35,12 +35,55 @@ Observable 객체의 `publish()` 함수를 호출해주면 ConnectableObservable
 
 
 
+## Observable 생성
+### `Observable.create`
+`Observable.create`은 Observable 의 가장 기본적인 생성메서드이다. Observable은 다음과 같이 생성할 수 있다. 
 
+```swift 
+let createTest = Observable<String>.create { observer -> Disposable in 
+	observer.on(.next("next"))
+	observer.on(.completed)
+	return Disposables.create {
+		print("dispose")
+	}
+}
+```
+subscribe에 대한 문법은 다음과 같다. 
+```swift 
+// createTest.subscribe(onNext: ((String) -> Void)?, onError: ((Error) -> Void)?, onCompleted: (() -> Void)?, onDisposed: (() -> Void)?)
 
+createText.subscribe(onNext: { event in
+	print(event)
+}).addDisposableTo(disposeBag)
 
+```
+1. create는 원하는 type으로 이벤트를 발생시키는 Observable을 생성한다. 
+2. Observable은 subscribe 되면 이벤트를 발생하기 시작한다. 그리고, onNext, onError, onComplete 를 전달한다.
+3. dispose는 subscribe에서 명시적으로 호출하거나 전달한 disposeBag을 초기화 하거나, onComplete가 호출 된 뒤에 dispose된다.
+4. on(.error(error)) 와 on(completed) 는 같은 스택에서 부르지 않는다.
 
+### `Observable.generate` 
+`Observable.generate`는 조건식을 가진 생성이다. 
+```swift
+// Observable.generate(initialState: Element, condition: (Element) throws -> Bool, iterate: (Element) throws -> Element) 
 
+let generateTest = Observable.generate(initialState: 1, condition: {$0 < 30}, iterate: {$0 + 10})
+```
 
+### `Observable.just`
+`Observable.just`는 단일 이벤트를 발생하는 Observable을 생성한다.
+```swift
+let justText = Observable<String>.just("just one")
+justTest.subscribe { event in 
+	print(event)
+}.addDisposableTo(disposeBag)
+```
+1. 초기값을 가지고 첫 emit를 발생시킨다.
+2. 조건식을 통해 Observable의 종료를 결정한다.
+3. 초기값을 기반으로 다음 이벤트를 가공하는 함수를 가진다.
+4. 네 번째 파라미터로 scheduler를 전달할 수 있는데 기본적으로는 현재 thread를 사용한다.
+(scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance)
+별도의 thread에서 동작하도록 하고 싶다면 scheduler를 전달.
 
 
 
