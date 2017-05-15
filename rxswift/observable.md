@@ -85,6 +85,61 @@ justTest.subscribe { event in
 (scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance)
 별도의 thread에서 동작하도록 하고 싶다면 scheduler를 전달.
 
+### `Observable.empty`, `Observable.never`, 'Observable.error'
+이들은 각각 1. 이벤트가 없이 종료되거나, 2. 종료되지 않거나, 3. error를 리턴하면 종료되는 Observable이다. 
+
+### `Observable.of`, `Observable.from`
+RxSwift3 에서는 `toObservable()`가 deprecate되고 `Observable.from`을 사용한다.  
+`Observable.from`는 주로 Subject 두개를 `merge()`할 때 쓰인다.
+
+```Swift
+let ofTest = Observable<String>.of("My","name","is","singhee")
+ofTest.subscribe { event i
+	print(event)
+}.addDisposableTo(disposeBag)
+
+let arr = ["My", "name", "is", "singhee"]
+let fromTest = Observable<String>.from(arr)
+fromTest.subscribe { event in
+	print(event)
+}.addDisposableTo(disposeBag)
 
 
+// 같은 결과
+// next(My)
+// next(name)
+// next(is)
+// next(singhee)
+// completed
+```
+
+### `Observable.deferred`
+`Observable.deferred`는 subscribe가 발생할때 observable을 생성한다.
+```swift
+let deferTest = Observable<String>.deferred({Observable.just("defer")})
+deferTest.subscribe { event in
+	print(event)
+}.addDisposableTo(disposeBag)
+```
+lazy initialize Observable 생성자이다. subscribe가 발생할때 Observable이 생성되기 때문에 메모리관리에 효율적이다. Observable생성이 메모리를 많이 차지하거나, 생성이 lazy하는 것이 효율적일때 사용한다. 
+
+### `Observable.repeatElement`, `Observable.range`
+`Observable.repeatElement`은 설정한 element를 통해 반복적으로 이벤트를 발생하고, `Observable.range`는 설정한 Range내의 이벤트를 발생한다. (단, Int타입만 가능)
+
+```swift 
+let repeatTest = Observable<String>.repeatElement("repeat")
+repeatTest.subscribe { event in
+	print(event)
+}.addDisposableTo(disposeBag)
+
+
+let rangeTest = Observable<String>.range(start: 0, count: 3)
+rangeTest.subscribe { event in
+	print(event)
+}.addDisposableTo(disposeBag)
+```
+
+
+### `Observable.using`
+`Observable.using`은 observable 객체를 다른 observable을 통해 관리하게 한다.
 
