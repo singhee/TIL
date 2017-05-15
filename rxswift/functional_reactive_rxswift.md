@@ -150,6 +150,28 @@ rx_canBuy()
 ```
 rx_canBuy 메서드는 구독한 상대방에게 boolean값을 준다. 따라서 self.buyButton 값은 canBuy 값과 같다.
 
+## Background Processes With Ease
+대용량의 비디오 업로드를 백그라운드 프로세스에서 하려고 할 때 가장 효율적인 방법은 `observeOn`을 사용하는 것이다.
+```Swfit 
+let operationQueue = NSOperationQueue()
+  operationQueue.maxConcurrentOperationCount = 3
+  operationQueue.qualityOfService = NSQualityOfService.UserInitiated
+  let backgroundWorkScheduler
+    = OperationQueueScheduler(operationQueue: operationQueue)
+
+videoUpload
+  .observeOn(backgroundWorkScheduler)
+  .map({ json in
+    return json["videoUrl"].stringValue
+  })
+  .observeOn(MainScheduler.sharedInstance)
+  .subscribeNext{ url
+    self.urlLabel.text = url
+  }
+```
+
+비디오 업로드가 끝나면 모든 퍼센트 신호가 나에게 전송된다. 이런 작업을 메인 스레드에서 할 필요는 없다. 백그라운드 작업 스케줄러에게 맡기는게 좋다. 비디오 업로드가 모두 완료되면 UI label에 넣을 URL이 담긴 JSON이 반환된다. 백그라운드 작업이므로 UI에 업데이트하도록 알려야 하고, 메인 스레드로 전달돼야 힌다. observeOn(MainScheduler.SharedInstance)를 사용하면 UI를 업데이트할 수 있다. 안드로이드의 RxJava에서는 크래시가 발생하겠지만, 이와 달리 Swift에서 백그라운드 스레드에 뭔가 넘겨주면 경고가 발생하지 않는다. 
+
 
 
 
