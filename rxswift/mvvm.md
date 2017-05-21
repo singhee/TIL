@@ -6,6 +6,7 @@ MVVM은 Microsoft의 John Gossman이 WPF(Windows Presentation Foundation)와 Siv
 
 
 ## MVC의 한계
+![Figure_2. MVC Pattern](../images/MVC.png)
 MVC 패턴은 가장 널리 사용된 코딩 패턴이자 iOS개발에서도 자주 쓰이는 패턴이다. MVC의 목적은 
 첫째, Model과 View를 완전히 분리시켜 이들의 재사용성(Reusability)을 높이고, 둘째, Model과 View 각각의 역할을 분명히 하여 스파게티 코드(Separation of Concern)를 방지 하는 것이다. 이를 위해 앱의 비즈니스 로직과 데이터를 담당하는 코드는 Model에, UI를 담당하는 코드는 View에, 그리고 Model과 View를 이어주는 역할을 하는 코드들은 Controller에 따로 분리하도록 한다. 
 
