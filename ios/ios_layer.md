@@ -1,6 +1,8 @@
 # iOS Layer
 iOS는 다음과 같이 4개의 층으로 구성된다. 위에 있을수록 유저와 가깝고, 아래 있을수록 하드웨어와 가깝다.
 
+![Figure_1](../images/iOS_Layer.jpg)
+
 * Cocoa Touch
 * Media
 * Core Services
