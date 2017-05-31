@@ -51,17 +51,17 @@ iOS앱 개발에서 자주 이용되는 프레임워크는 다음과 같다.
 레이어|이름|설명
 ---------------|-----------|-----------
 Cocoa Touch| UIKit | 화면 구성과 터치
- | MapKit | 지도 관련 기능
- | MessageUI | 이메일/메세지 전송
+ " | MapKit | 지도 관련 기능
+ " | MessageUI | 이메일/메세지 전송
 Media| AvFoundation | 미디어 재생관련
- | MediaPlayer | 플레이어 이용 
- | Core Image | 이미지 가공
- | Core Graphics | 그래픽 관련
+ " | MediaPlayer | 플레이어 이용 
+ " | Core Image | 이미지 가공
+ " | Core Graphics | 그래픽 관련
 Core Services| Accounts | 소셜미디어 계정관리
- | CoreMotion | 기기 센서
- | CoreLocation | 위치 정보 관련 기능
- | Foundation | 데이터 관리
- | LocalAuthentication | 지문 확인 
+ " | CoreMotion | 기기 센서
+ " | CoreLocation | 위치 정보 관련 기능
+ " | Foundation | 데이터 관리
+ " | LocalAuthentication | 지문 확인 
 
 iOS에서 프레임워크는 기능별로 나누어져 있고 프레임워크명 및 하위 프레임워크의 클래스명도 구현할 수 있는 기능을 쉽게 확인할 수 있도록 되어 있다. 즉, 개발자가 쉽게 이해할 수 있도록 하기 위함도 있지만 문서로 이용시 원하는 기능을 빠르게 검색할 수 있도록 위함도 있다. iOS업데이트가 일어나면 새로운 기능 추가와 같이 프레임워크도 업데이트되기 때문에 항상 iOS앱 개발을 한다면 애플의 개발자 사이트를 확인하는 습관을 가지자. 
 
