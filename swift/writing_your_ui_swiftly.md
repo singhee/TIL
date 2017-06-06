@@ -154,9 +154,136 @@ override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 Cartography 프레임워크를 사용하면 Swift 오퍼레이터 오버로드의 훌륭한 기능을 활용할 수 있고 이를 통해 코드로 오토 레이아웃을 아주 쉽게 작성할 수 있습니다
 
 
+## 뷰 상태
+뷰를 사용하면 보통 세 가지 상태에서 데이터를 가지고 있는 것을 볼 수 있습니다.
+
+* 데이터가 로딩 중일 때
+* 데이터가 성공적으로 로드됐을 때
+* 에러가 있을 때 ()해당 에러를 보여주는 UI 상태 표시)
+아래 코드에서 어떻게 서로 다른 뷰 상태를 처리할 수 있는지 보여드리겠습니다.
+```Swift 
+/// MainView.swift
+
+var isLoading: Bool = false {
+	didSet {
+		errorView.isHidden = true
+		loadingView.isHidden = !isLoading
+	}
+}
+
+var isError: Bool = false {
+	didSet {
+		errorView.isHidden = !isError
+		loadingView.isHidden = true
+	}
+}
+
+var items: [MovieItem]? {
+	didSet {
+		tableView.reloadData()
+	}
+}
+```
+뷰 상태를 나타낼 때 일반적으로 `isLoading`나 `isError`를 나타내는 플래그를 사용합니다. 하지만 그다지 훌륭한 방법은 아닙니다.
+
+만약 `isError`와 `isLoading`이 실수로 true로 설정된 경우 실제 상태가 어떤지 알 수 없으므로 해당 플래그로는 발생 가능한 상태를 전부 설명할 수 없습니다. 뷰는 세 개의 상태를 가지고 있고 이 중 둘은 정보와 관련있습니다.
+
+해결책은 연관된 값을 갖는 열거형을 사용하는 것입니다.
+```Swift
+final class MainView: UIView {
+	enum State {
+		case loading
+		case loaded(items: [MovieItem])
+		case error(message: String)
+	}
+
+	init(state: State) { ... }
+	// the rest of my class...
+}
+```
+우리가 원하는 정확한 상태로 뷰를 초기화할 수 있게 된 것이 보이시나요? 초기화 단계부터 이후까지 뷰는 항상 하나의 상태에 있게 됩니다.
+
+모든 뷰 관리는 바로 여기에서 시작됩니다. `getFilms`를 호출하기 전에 `ViewState`를 loading으로 설정하고, 결과에 따라 loaded나 error로 설정하면 됩니다. 뷰 로직을 한 장소에 집중할 수 있죠.
 
 
 
+## 반복 코드
+스타워즈 인트로의 유명한 노란 글자를 보여주는 두 번째 뷰 컨트롤러 역시 앞서 말한 세 가지 뷰 상태를 똑같이 갖습니다. 마지막으로 이같은 반복 코드에 대해 말씀드리겠습니다.
+
+서로 관련없는 객체가 공유하는 일련의 동작이 있는 경우죠. 이 경우 관련없는 객체는 메인 뷰 컨트롤러와 크롤링 뷰 컨트롤러입니다. 이런 상황을 프토로콜로 단순화할 수 있습니다.
+
+프로토콜은 특정 작업이나 기능 조각에 적합한 메서드, 속성과 다른 요구사항들의 청사진을 정의합니다. 프토토콜은 클래스, 구조체, 열거형에 모두 적용할 수 있고 이들 요구사항을 실제 구현하도록 할 수 있습니다.
+
+이 경우 세 가지 뷰 상태와 관련된 동작을 나타내면 되겠죠?
+
+구체적으로는 뷰에 데이터 로딩, 데이터 로딩 완료, 혹은 실패를 처리하려고 합니다. 이를 위해서는 ViewState 열거형이 필요합니다. 로딩 뷰와 에러 뷰가 필요하며 상태가 변하면 호출할 업데이트 함수도 필요할 겁니다.
+
+```Swift
+protocol DataLoading {
+	associatedtype DataLoading
+	
+	var state: ViewState<Data> { get set }
+	var loadingView: loadingView { get }
+	var errorView: ErrorView { get }
+	
+	func update()
+}
+
+enum ViewState<Content> {
+	case loading
+	case loaded(data: Content)
+	case error(message: String)
+}
+
+```
+이런 것들을 프로토콜에 넣습니다. 이는 로딩 패턴을 정의하는 동작 집합이며 ViewState 열거형을 제너릭으로 만들어서 필요한 것을 로드하도록 할 수 있습니다.
+```Swift
+// default protocol implementation
+extension DataLoading where Self: UIView {
+	func update() {
+		switch state {
+		case .loading:
+			loadingView.isHidden = false
+			errorView.isHidden = true
+		case .error(let error):
+			loadingView.isHidden = true
+			errorView.isHidden = false
+			Log.error(error)
+		case .loaded:
+				loadingView.isHidden = true
+				errorView.isHidden = true
+		}
+	}
+}
+```
+관련없는 객체가 공유하는 기능을 프로토콜로 분해해서 코드의 중복을 피하고 모든 로직을 한 곳에 통합할 수 있습니다.
+```Swift
+// DataLoading in Main View
+final class MainView: UIView, DataLoading {
+	let loadingView = LoadingView()
+	let errorView = ErrorView()
+	
+	var state: ViewState<[MovieItem]> {
+		didSet {
+			update()
+			tableView.reloadData()
+		}
+	}
+}
+
+// DataLoading in Crawl View
+class CrawlView: UIView, DataLoading {
+	let loadingView = LoadingView()
+	let errorView = ErrorView()
+	
+	var state: ViewState<String> {
+		didSet {
+			update()
+			crawlLabel.text = state.data
+		}
+	}
+}
+```
 
 
 
