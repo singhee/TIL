@@ -80,6 +80,96 @@ func myFilter<T>(source: [T], predicate:(T) -> Bool) -> [T] {
 evens = myFilter(Array(1...10)){ $0 % 2 == 0 }
 print(evens) // 출력: [2, 4, 6, 8, 10]
 ```
+## Reduce
+앞에서 단일 함수형 메서드를 사용하는 예를 들었다. 이제 좀 더 복잡한 로직을 함수형 프로그래밍 기법을 사용하여 구현해보도록 하겠다.
+
+
+### 수동 Reduce
+여기서 하고자 하는 작업은 좀 더 복잡하게 1과 10 사이의 짝수를 받아서 이 값들의 합을 구하는 예이다. 여러 개의 값을 입력받아 하나의 출력을 생성하는 reduce함수를 호출해야한다.
+```Swift
+var evens = [Int]()
+for i in 1...10 {
+  if i % 2 == 0 {
+    evens.append(i)
+  }
+}
+ 
+var evenSum = 0
+for i in evens {
+  evenSum += i
+}
+ 
+print(evenSum) // 출력: 30
+```
+위와 같은 명령형 코드는 이전의 예제에 for-in 루프를 하나 더 추가하였을 뿐, 같은 흐름이다.
+
+### 함수형 Reduce
+동일한 내용을 함수형 프로그래밍 형태로 작성해 보자.
+```Swift
+var evenSum = Array(1...10)
+    .filter { number in number % 2 == 0 }
+    .reduce(0) { total, number in total + number }
+ 
+print(evenSum) // 출력: 30
+```
+앞에서 설명한 것 처럼 배열을 생성하여 `filter`를 호출하여 최종적으로 새로운 배열 `[2, 4, 6, 8, 10]`을 만들어 낸다. 그 다음 단계에서 `reduce`를 호출한다.
+
+Array의 `reduce`는 배열을 각각의 엘리먼트에 대해서 한 번씩 순차적으로 실행하면서 결과를 누적하는데 이를 통해서 굉장히 다양한 일을 할 수 있다.
+
+`reduce`의 동작방법을 이해하기위해 이 함수의 시그너쳐를 살펴보자.
+
+```Swift
+func reduce<U>(initial: U, combine: (U, T) -> U) -> U
+```
+첫 번째 파라미터는 초기 값으로 U형이다. 우리의 예제에서는 Int형인 0이 초기값으로 되어 있다. 두 번째 파라미터는 combine함수로 배열의 개별 엘리먼트에 대해서 한 번씩 실행된다.
+
+combine에는 두 개의 파라미터가 있다. 첫 번째 파라미터는 `U` 타입이고 바로 직전 combine함수 호출의 결과 값이다. 두 번째 파라미터는 combine작업을 수행할 현재 배열의 엘리먼트이다. 가장 마지막 combine 호출에서 반환되는 값은 reduce의 리턴 값으로 반환된다.
+
+아래에서 관련된 몇 가지 예를 들어 보겠다. 먼저 정수의 배열에서 최대값을 찾는 예이다.
+```Swift
+let maxNumber = Array(1...10).reduce(0) { currentMax, number in max(currentMax, number) }
+print(maxNumber) // 출력: 10
+```
+이제까지의 예에서는 모두 정수와 정수 배열에 관한 것이었다. `reduce`에는 두 가지 자료형, `U`와 `T`를 파라미터로 정의되어 있으므로 정수형이 아닌 다른 자료형에도 적용할 수 있다.
+```Swift
+let numbers = Array(1...10)
+    .reduce("numbers: ") {total, number in total + "\(number) "}
+print(numbers) // 출력: numbers: 1 2 3 4 5 6 7 8 9 10 
+```
+이 예는 정수의 배열을 스트링으로 `reduce`하는 예이다.
+
+### reduce의 원리
+앞에서 `filter`를 직접 구현해 보았는데 어렵지 않았다. 이번에는 `reduce`를 구현해 보겠다.
+
+아래와 같이 Array의 익스텐션으로 myReduce를 구현한다. 모든 배열의 항목에 대해서 단순하게 for-in으로 순환하면서 combiner를 호출하도록 되어 있다.
+
+```Swift
+extension Array {
+  func myReduce<T, U>(seed:U, combiner:(U, T) -> U) -> U {
+    var current = seed
+    for item in self {
+        if let item = item as? T {
+            current = combiner(current, item)
+        }
+    }
+    return current
+  }
+}
+```
+테스트하기위해 이전에 작성된 예제 코드에서 `reduce` 대신에 `myReduce`를 호출하도록 수정해 보겠다.
+```Swift
+let maxNumber = Array(1...10).myReduce(0) { currentMax, number in max(currentMax, number) }
+print(maxNumber) // 출력: 10
+```
+`filter`나 `reduce`는 이미 구현되어 있는데 새로 구현하는 것이 가치가 있는 일은 아닐 것이다. 하지만 구현 원리를 이해하고 활용하는데 도움이 되기를 바란다.
+
+
+
+
+
+
+
+
 
 
 
