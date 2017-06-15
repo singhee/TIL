@@ -1,5 +1,5 @@
 # Reactive Extensions - Rx
-`Reactive Extensios` 즉, `Rx`란 비동기와 이벤트 기반 프로그램을 작성하는 데 필요한 **Ovservable** 시퀀스, LINQ형식의 쿼리문 처리에 대한 기능으로 구성된 라이브러리를 말한다. 
+`Reactive Extensios` 즉, `Rx`란 비동기와 이벤트 기반 프로그램을 작성하는 데 필요한 **Observable** 시퀀스, LINQ형식의 쿼리문 처리에 대한 기능으로 구성된 라이브러리를 말한다. 
 
 Data sequences는 파일, 웹 서비스, 웹 서비스 요청, 시스템 알림 또는 유저 인풋같은 일련의 이벤트들 처럼 많은 형식을 취할 수 있다. 
 
