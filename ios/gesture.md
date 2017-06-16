@@ -10,6 +10,25 @@
 6. Pinch - 바깥쪽으로 pinching 할 때 Zoom in 하고, 안쪽으로 pinching 하는 경우 Zoom out 한다.
 7. Touch and hold - 편집 가능한 텍스트 또는 선택 가능한 텍스트에서 수행 될 때 커서 위치 지정을 위한 확대보기를 표시한다. 컬렉션보기와 같은 특정보기에서 수행할 때 항목을 재배치 할 수 있는 모드로 들어간다.
 8. Shake - 실행 취소 또는 재실행을 한다.
+
+
+## 규칙
+다음은 Apple Developer 문서에 나오는 제스처에 관한 규칙이다.
+
+1. As a general rule, use standard gestures.
+일반적으로 표준 제스처를 사용하세요. 사람들은 표준 제스처에 익숙하며 같은 일을 하는 여러가지 방법들을 강요당하는 것을 인정하지 않습니다. 게임 및 기타 몰입형 앱에서 커스텀 제스처는 재미있는 경험일 수도 있습니다. 하지만, 다른 앱에서는 표준 제스처를 사용하는 것이 가장 좋으므로 제스처를 새로 발견하거나, 기억할 필요가 없습니다. 
+
+2. Don’t block systemwide gestures.
+시스템 전체 제스처를 차단하지 마세요. 표준 제스처 외에도 일부 추가 제스처는 제어 센터 또는 알림 센터 공개와 같은 시스템 전체 작업을 호출합니다. 사람들은 모든 앱을 수행하기 위해 이러한 제스처에 의존합니다.
+
+3. Avoid using standard gestures to perform nonstandard actions.
+비표준 제스처을 수행하기 위해 표준 제스처를 사용하지 마세요. 앱이 활성된 게임 플레이의 게임이 아니라면 표준 제스처의 의미를 다시 정의하는 것은 혼란과 복잡성을 초래합니다. 
+
+4. Offer shortcut gestures to supplement, not replace, interface-based navigation and actions.
+인터페이스 기반 탐색 및 동작을 보완 할 수 있는 바로가기 제스처를 제공합니다. 가능한 한 탐색하거나 동작을 수행할 수 있는 간단하고 눈에 보이는 방법을 제공하세요. 많은 시스템 응용 프로그램에는 이전 화면으로 돌아가는 명확하고 탭 가능한 버튼을 제공하는 네이게이션 바가 포함되어 있습니다. 그러나 사용자는 화면 측면에서 스와이프하여 뒤로 이동할 수도 있습니다. iPad의 경우 홈 버튼을 누르거나 4개의 손가락 집게를 사용하여 홈 화면으로 나갈 수 있습니다. 
+
+5. Use multifinger gestures to enhance the experience of some apps.
+multifinger 제스처를 사용하여 일부 앱의 사용 환경을 향상시킵니다. 한 번에 여러 손가락을 사용하는 제스처가 모든 앱에 적합하지는 않지만, 게임이나 그림 그리기 앱과 같은 일부 앱에서는 풍부한 경험을 할 수 있습니다. 예를 들어 게임에는 조이스틱 및 실행 버튼과 같은 동시에 조작할 수 있는 여러 개의 화면 컨트롤이 포함될 수 있습니다. 
 -----------------------------------------------------------
 [Apple Developer - Gesture](https://developer.apple.com/ios/human-interface-guidelines/interaction/gestures/)
 
