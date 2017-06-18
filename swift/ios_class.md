@@ -102,6 +102,8 @@ iOS앱에 하나의 앱에 대해 반드시 하나의 UIApplication이 있고 �
 3. UIStoryboardSegue객체를 생성하고 변환한 소스코드 및 전환대상 UIViewController객체 정보를 설정함
 4. 원래 ViewController객체의 prepareForSegue메소드를 호출
 
+-------------------------------------------------------------
+[출처](https://swifter.kr/2016/09/02/지나칠-수-있는-swift-ios개발-기초-ios클래스편/)
 
 
 
