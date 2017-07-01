@@ -57,3 +57,28 @@ protocol ObserverType {
 }
 ```
 
+# Observable 만들기
+Observable의 생성은 `just`, `from`, `create`등을 이용해 만들 수 있다. 
+```Swift
+// just
+let stringSequence = Observable.just("this is string yo")
+
+// from
+let oddSequence = Observable.from([1, 3, 5, 7, 9])
+
+// create
+func myJust<E>(element: E) -> Observable<E> {
+    return Observable.create { observer in
+        observer.on(.next(element))
+        observer.on(.completed)
+        return Disposables.create()
+    }
+}
+
+myJust(element: 0)
+    .subscribe(onNext: { n in
+      print(n)
+    })
+
+```
+`create` 함수는 Swift 의 closure를 사용해 `subscribe` 메서드를 쉽게 구현할 수 있도록 한다.
