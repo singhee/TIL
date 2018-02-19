@@ -167,9 +167,8 @@ func getSwiftFiles(files: [String]) -> [String] {
 
 
 ## Reduce (리듀스)
-제너릭을 사용하는 또다른 Array의 Extension인 Reduce를 보도록 하자. 
-배열의 모든 정수의 합을 구하는 함수는 다음과 같이 쉽게 정의할 수 있다. 
 ```swift
+// 배열의 모든 정수의 합
 func sum(xs: [Int]) -> Int {
 	var result: Int = 0
 	for x in xs {
@@ -181,8 +180,8 @@ func sum(xs: [Int]) -> Int {
 sum([1, 2, 3, 4])		// 10
 ```
 
-다음은 배열의 모든 정수의 곱을 구하는 함수이다.
 ```swift
+// 배열의 모든 정수의 곱
 func product(xs: [Int]) -> Int {
 	var result: Int = 1
 	for x in xs {
@@ -192,8 +191,8 @@ func product(xs: [Int]) -> Int {
 }
 ```
 
-이와 비슷하게 배열의 모든 스트링을 합티는 것이 필요한 경우도 있다.
 ```swift
+// 배열의 모든 스트링을 합치기
 func concatenate(xs: [String]) -> String {
 	var result: String = ""
 	for x in xs {
@@ -203,8 +202,8 @@ func concatenate(xs: [String]) -> String {
 }
 ```
 
-아니면 배열의 모든 스트링을 합치는데, 각 요소마다 별도의 헤더라인과 새줄문자를 추가할 수도 있다.
 ```swift
+// 배열의 모든 스트링을 합치는데, 각 요소마다 별도의 헤더라인과 새줄문자를 추가
 func prettyPrintArray(xs: [String]) -> String {
 	var result: String = "Entries in the array xs: \n"
 	for x in xs {
@@ -214,7 +213,10 @@ func prettyPrintArray(xs: [String]) -> String {
 }
 ```
 
-위의 네 함수의 공통적 특성(1. result 변수에 할당되는 초기 값, 2. 매 반복마다 result를 갱신하는 기능)을 추상화 할 수 있다.
+위의 네 함수의 공통적 특성을 묶어 추상화 시키기
+1. result 변수에 할당되는 초기 값
+2. 매 반복마다 result를 갱신하기 위해 사용하는 함수
+
 ```swift
 extenstion Array {
 	func reduce<T>(initial: T, combine: (T, Element) -> T) -> T {
@@ -279,18 +281,55 @@ extension Array {
 }
 ```
 
-## 제네릭 vs Any 타입
-Generic, Any Type -> 다른 타입의 인자를 받는 함수를 정의하는데 사용 
+**배열을 반복 실행하며 결과를 계산해내는 것은 reduce를 이용하자.**
 
-### Generic vs Any 
+## map, filter, reduce를 실제로 사용하는 예제 
+```swift
+// 도시의 이름과 인구(천명 단위 거주자 수)로 구성된 struct
+struct City {
+	let name: String
+	let population: Int
+}
+
+let paris = City(name: "Paris", population:: 2243)
+let madrid = City(name: "Madrid", population:: 3216)
+let amsterdam = City(name: "Amsterdam", population:: 811)
+let berlin = City(name: "Berlin", population:: 3397)
+
+let cities = [paris, madrid, amsterdam, berlin]
+
+// 백만명 이상 거주자가 있는 도시의 목록과 총합 출력
+// 거주자 수 단위(천명 단위)에 맞게 population 계산
+extension City {
+	func cityByScalingPopulation() -> City {
+		return City(name: name, population: population * 1000)
+	}
+}
+
+// map, filter, reduce를 사용한다면?
+cities.filter { city in city.population > 1000 }  // 백만명 이상 거주지 걸러내기
+	.map { $0.cityByScalingPopulation() }			 // 걸러진 거주지 각각에 scale 함수 적용
+	.reduce("City: Population") { result, c in		 // 도시 이름, 인구 목록을 담는 String 출력  
+		return result + "\n" + "\(c.name): \(c.population)"
+	}
+
+// 출력 결과
+City: Population
+Paris: 2243000
+Madrid: 3216000
+Berlin: 3397000
 ```
+
+
+## 제네릭 vs Any 타입
+Generic, Any Type 둘 다 **어떤 타입의 값이든 나타낼 수 있는 것으로, 하나의 인자로 다른 타입을 받는 함수를 정의하는데 사용된다.**
+
 - Generic 
 타입에 유연한 함수를 정의할 수 있다. 타입을 컴파일러가 확인한다.
 - Any 타입
  어떤 타입의 값이든 나타낼 수 있는 타입. Swift 의 타입 시스템을 피하는데 사용할 수 있다.
-```
 
-인자를 그대로 반환하는 함수. 어떤 인자든 받을 수 있다.
+받은 인자를 그대로 반환하는 함수. 
 ```swift
 // Generic 
 // 반환 값이 입력값과 같다.
@@ -307,7 +346,7 @@ func noOpAny(x: Any) -> Any {
 }
 ```
 
-Generic 함수는 극도로 많은 정보를 제공한다. 합성 연산자 `>>>`의 제너릭 버전을 보자.
+Generic 함수의 타입은 극도로 많은 정보를 제공한다. 함수 합성 연산자 `>>>`의 제너릭 버전을 보자.
 ```swift
 infix operator >>> { associativity left }
 func >>> <A, B, C>(f: A -> B, g: B -> C) -> A -> C {
